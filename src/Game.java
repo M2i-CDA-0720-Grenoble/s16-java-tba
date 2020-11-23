@@ -13,8 +13,24 @@ public class Game {
         scanner = new Scanner(System.in);
 
         // Crée les pièces du jeu
-        rooms = new Room[] { new Room("bedroom", "You are in the bedroom"),
-                new Room("bathroom", "You are in the bathroom."), new Room("kitchen", "You are in the kitchen.") };
+        Room bedroom = new Room("bedroom", "There is a bed and a desk.");
+        Room bathroom = new Room("bathroom", "There is a toothbrush and a towel.");
+        Room kitchen = new Room("kitchen", "There are leftovers from last night's dinner.");
+        Room corridor = new Room("corridor", "It's empty.");
+
+        bedroom.setDirection(Direction.East, bathroom);
+        bathroom.setDirection(Direction.West, bedroom);
+        bedroom.setDirection(Direction.North, corridor);
+        corridor.setDirection(Direction.South, bedroom);
+        corridor.setDirection(Direction.West, kitchen);
+        kitchen.setDirection(Direction.East, corridor);
+
+        rooms = new Room[] {
+            bedroom,
+            bathroom,
+            kitchen,
+            corridor,
+        };
 
         // Définit la pièce de départ
         currentRoom = rooms[0];
@@ -25,7 +41,7 @@ public class Game {
 
     public void update() {
         // Décrit la pièce actuelle
-        System.out.println(ConsoleColor.CYAN + currentRoom.getDescription() + ConsoleColor.RESET);
+        currentRoom.describe();
 
         // Invite l'utilisateur à rentrer une ligne de texte
         System.out.println("");
@@ -38,13 +54,20 @@ public class Game {
             return;
         }
 
-        // Cherche si la saisie de l'utilisateur correspond à une pièce, et change de
-        // pièce le cas échéant
-        Room newRoom = findRoomByName(userInput);
-        if (newRoom == null) {
-            System.out.println(ConsoleColor.YELLOW + "This room does not exist!" + ConsoleColor.RESET);
-        } else {
-            currentRoom = newRoom;
+        // Cherche si la saisie de l'utilisateur correspond à une direction,
+        // et se déplace dans la pièce correspondante le cas échéant
+        for (Direction direction : Direction.values()) {
+            if (direction.getCommand().equals(userInput)) {
+                Room newRoom = currentRoom.getDirection(direction);
+
+                if (newRoom == null) {
+                    System.out.println(ConsoleColor.YELLOW + "You cannot go into that direction." + ConsoleColor.RESET);
+                } else {
+                    currentRoom = newRoom;
+                }
+
+                break;
+            }
         }
 
         System.out.println("");
