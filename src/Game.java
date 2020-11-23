@@ -20,25 +20,29 @@ public class Game
             new Room("kitchen", "You are in the kitchen.")
         };
 
+        // Définit la pièce de départ
         currentRoom = rooms[0];
 
+        // Initialise le marqueur permettant de savoir que la partie est en cours
         isRunning = true;
     }
 
     public Room findRoomByName(String name)
     {
+        // Cherche parmi les pièces disponibles, celle correspondant au nom demandé
         for (Room room : rooms) {
             if (room.name.equals(name)) {
                 return room;
             }
         }
 
+        // Si aucune pièce n'a été trouvée, renvoie null
         return null;
     }
 
     public void update()
     {
-        // Décrit la situation actuelle
+        // Décrit la pièce actuelle
         System.out.println(currentRoom.description);
 
         // Invite l'utilisateur à rentrer une ligne de texte
@@ -46,12 +50,13 @@ public class Game
         System.out.print("> ");
         String userInput = scanner.nextLine().trim();
 
+        // Si l'utilisateur a rentré "exit", termine le jeu
         if ("exit".equals(userInput)) {
             terminate();
             return;
         }
 
-        // Change la situation actuelle en fonction de la saisie de l'utilisateur
+        // Cherche si la saisie de l'utilisateur correspond à une pièce, et change de pièce le cas échéant
         Room newRoom = findRoomByName(userInput);
         if (newRoom == null) {
             System.out.println("This room does not exist!");
