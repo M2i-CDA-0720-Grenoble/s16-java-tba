@@ -8,27 +8,22 @@ public class App {
 
         String userInput = null;
 
-        int currentRoom = 0;
+        // Crée les pièces du jeu
+        Room[] rooms = {
+            new Room("bedroom", "You are in the bedroom"),
+            new Room("bathroom", "You are in the bathroom."),
+            new Room("kitchen", "You are in the kitchen.")
+        };
+
+        // Définit la pièce de départ
+        Room currentRoom = rooms[0];
 
         // Boucle principale
         // Tant que l'application n'a pas reçu le signal de s'arrêter, elle continue son cycle d'exécution
         while (!"exit".equals(userInput)) {
 
             // Décrit la situation actuelle
-            switch (currentRoom) {
-                // Chambre
-                case 0:
-                    System.out.println("You are in the bedroom.");
-                    break;
-                // Cuisine
-                case 1:
-                    System.out.println("You are in the kitchen.");
-                    break;
-                // Salle de bain
-                case 2:
-                    System.out.println("You are in the bathroom.");
-                    break;
-            }
+            System.out.println(currentRoom.description);
 
             // Invite l'utilisateur à rentrer une ligne de texte
             System.out.println("");
@@ -36,14 +31,11 @@ public class App {
             userInput = scanner.nextLine().trim();
 
             // Change la situation actuelle en fonction de la saisie de l'utilisateur
-            if ("bedroom".equals(userInput)) {
-                currentRoom = 0;
-            }
-            if ("kitchen".equals(userInput)) {
-                currentRoom = 1;
-            }
-            if ("bathroom".equals(userInput)) {
-                currentRoom = 2;
+            for (Room room : rooms) {
+                if (room.name.equals(userInput)) {
+                    currentRoom = room;
+                    break;
+                }
             }
 
             System.out.println("");
