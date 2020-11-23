@@ -7,7 +7,7 @@ public class App
 
         // Boucle principale
         // Tant que l'application n'a pas reçu le signal de s'arrêter, elle continue son cycle d'exécution
-        while (currentGame.isRunning) {
+        while (currentGame.getIsRunning()) {
             // Demande à la partie de se mettre à jour
             currentGame.update();
         }

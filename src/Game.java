@@ -2,11 +2,11 @@ import java.util.Scanner;
 
 public class Game
 {
-    public Scanner scanner;
-    public boolean isRunning;
+    private Scanner scanner;
+    private boolean isRunning;
 
-    public Room[] rooms;
-    public Room currentRoom;
+    private Room[] rooms;
+    private Room currentRoom;
 
     public Game()
     {
@@ -27,11 +27,11 @@ public class Game
         isRunning = true;
     }
 
-    public Room findRoomByName(String name)
+    private Room findRoomByName(String name)
     {
         // Cherche parmi les pièces disponibles, celle correspondant au nom demandé
         for (Room room : rooms) {
-            if (room.name.equals(name)) {
+            if (room.getName().equals(name)) {
                 return room;
             }
         }
@@ -43,7 +43,7 @@ public class Game
     public void update()
     {
         // Décrit la pièce actuelle
-        System.out.println(currentRoom.description);
+        System.out.println(currentRoom.getDescription());
 
         // Invite l'utilisateur à rentrer une ligne de texte
         System.out.println("");
@@ -67,9 +67,14 @@ public class Game
         System.out.println("");
     }
 
-    public void terminate()
+    private void terminate()
     {
         isRunning = false;
         scanner.close();
+    }
+
+    public boolean getIsRunning()
+    {
+        return isRunning;
     }
 }

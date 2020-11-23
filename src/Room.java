@@ -1,7 +1,7 @@
 public class Room
 {
-    public String name;
-    public String description;
+    private String name;
+    private String description;
 
     public Room()
     {
@@ -13,5 +13,15 @@ public class Room
     {
         this.name = name;
         this.description = description;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getDescription()
+    {
+        return description;
     }
 }
