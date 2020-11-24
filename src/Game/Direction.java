@@ -1,4 +1,6 @@
-enum Direction {
+package Game;
+
+public enum Direction {
     East("east"),
     South("south"),
     West("west"),

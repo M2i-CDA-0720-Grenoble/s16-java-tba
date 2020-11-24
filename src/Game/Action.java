@@ -1,4 +1,6 @@
-enum Action {
+package Game;
+
+public enum Action {
     Examine("examine"),
     Open("open"),
     Use("use"),

@@ -1,4 +1,6 @@
-enum ConsoleColor {
+package Game;
+
+public enum ConsoleColor {
     //Color end string, color reset
     RESET("\033[0m"),
 

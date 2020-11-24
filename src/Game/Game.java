@@ -1,13 +1,17 @@
+package Game;
+
 import java.util.Scanner;
 
-public class Game {
+import Game.GameMode.*;
+
+public class Game
+{
     private Scanner scanner;
     private boolean isRunning;
-    private int mode;
+    private GameMode mode;
 
     private Room[] rooms;
     private Room currentRoom;
-    private Item currentItem;
 
 
     /**
@@ -57,7 +61,7 @@ public class Game {
         isRunning = true;
 
         // Initialise le jeu en mode "navigation"
-        mode = 0;
+        mode = new NavigationMode(this);
     }
 
 
@@ -65,18 +69,9 @@ public class Game {
      * Update game state
      */
     public void update() {
-        // Décrit la situation actuelle
-        switch (mode) {
-            // Mode navigation
-            case 0:
-                currentRoom.describe();
-                break;
-            // Mode interaction
-            case 1:
-                currentItem.describe();
-                break;
-        }
-
+        // Décrit la situation acutelle en fonction du mode
+        mode.describe();
+        
         // Invite l'utilisateur à rentrer une ligne de texte
         System.out.println("");
         System.out.print("> ");
@@ -88,51 +83,8 @@ public class Game {
             return;
         }
 
-        switch (mode) {
-            // Mode navigation
-            case 0:
-                // Cherche si la saisie de l'utilisateur correspond à une direction,
-                // et se déplace dans la pièce correspondante le cas échéant
-                for (Direction direction : Direction.values()) {
-                    if (direction.getCommand().equals(userInput)) {
-                        Room newRoom = currentRoom.getDirection(direction);
-        
-                        if (newRoom == null) {
-                            System.out.println(ConsoleColor.YELLOW + "You cannot go into that direction." + ConsoleColor.RESET);
-                        } else {
-                            currentRoom = newRoom;
-                        }
-        
-                        break;
-                    }
-                }
-                // Cherche si la saisie de l'utilisateur correspond à un objet présent dans la pièce,
-                // et passe en mode "interaction" avec cet objet le cas échéant
-                for (Item item : currentRoom.getItems()) {
-                    if (item.getName().equals(userInput)) {
-                        currentItem = item;
-                        mode = 1;
-                        break;
-                    }
-                }
-                break;
-            // Mode interaction
-            case 1:
-                // Si la saisie de l'utilisateur est vide, retourne en mode "navigation"
-                if ("".equals(userInput)) {
-                    mode = 0;
-                }
-                // Cherche si la saisie de l'utilisateur correspond à une action définie pour l'objet,
-                // et affiche son résultat le cas échéant
-                for (Action action : Action.values()) {
-                    if (action.getCommand().equals(userInput)) {
-                        String text = currentItem.getActions().get(action);
-                        System.out.println(text);
-                        break;
-                    }
-                }
-                break;
-        }
+        // Interprète la saisie utilisateur en fonction du mode
+        mode.interpret(userInput);
 
         System.out.println("");
     }
@@ -172,5 +124,25 @@ public class Game {
      */
     public boolean getIsRunning() {
         return isRunning;
+    }
+
+
+    public Room getCurrentRoom()
+    {
+        return currentRoom;
+    }
+
+    public Game setCurrentRoom(Room room)
+    {
+        this.currentRoom = room;
+        return this;
+    }
+
+    public GameMode getMode() {
+        return mode;
+    }
+
+    public void setMode(GameMode mode) {
+        this.mode = mode;
     }
 }

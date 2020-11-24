@@ -1,3 +1,5 @@
+import Game.Game;
+
 public class App
 {
     // Cette méthode est appelée automatiquement au lancement de l'application
