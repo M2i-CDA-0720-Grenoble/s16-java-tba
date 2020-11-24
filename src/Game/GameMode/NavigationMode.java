@@ -23,19 +23,20 @@ public class NavigationMode extends GameMode
     {
         // Cherche si la saisie de l'utilisateur correspond à une direction,
         // et se déplace dans la pièce correspondante le cas échéant
-        for (Direction direction : Direction.values()) {
-            if (direction.getCommand().equals(userInput)) {
-                Room newRoom = game.getCurrentRoom().getDirection(direction);
+        Direction direction = Direction.match(userInput);
 
-                if (newRoom == null) {
-                    System.out.println(ConsoleColor.YELLOW + "You cannot go into that direction." + ConsoleColor.RESET);
-                } else {
-                    game.setCurrentRoom(newRoom);
-                }
+        if (direction != null) {
+            Room newRoom = game.getCurrentRoom().getDirection(direction);
 
-                return;
+            if (newRoom == null) {
+                System.out.println(ConsoleColor.YELLOW + "You cannot go into that direction." + ConsoleColor.RESET);
+            } else {
+                game.setCurrentRoom(newRoom);
             }
+            
+            return;    
         }
+
         // Cherche si la saisie de l'utilisateur correspond à un objet présent dans la pièce,
         // et passe en mode "interaction" avec cet objet le cas échéant
         for (Item item : game.getCurrentRoom().getItems()) {

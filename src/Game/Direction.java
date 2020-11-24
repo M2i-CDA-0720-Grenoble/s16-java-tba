@@ -27,4 +27,17 @@ public enum Direction {
     {
         return command;
     }
+
+
+    public static Direction match(String command)
+    {
+        // Cherche parmi toutes les directions, celle qui correspond à la commande demandée
+        for (Direction direction : Direction.values()) {
+            if (direction.getCommand().equals(command)) {
+                return direction;
+            }
+        }
+        // Si la boucle s'est terminée, c'est donc que la commande ne correspond à aucune direction
+        return null;
+    }
 }
