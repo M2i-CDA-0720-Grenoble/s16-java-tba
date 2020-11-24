@@ -36,6 +36,13 @@ public class Game {
             corridor,
         };
 
+        // Crée les objets dans les pièces
+        bedroom.addItem( new Item("desk", "Beautiful description of the desk") );
+        bedroom.addItem( new Item("bed", "Beautiful description of the bed") );
+        kitchen.addItem( new Item("food", "Beautiful description of the food") );
+        bathroom.addItem( new Item("toothbrush", "Beautiful description of the toothbrush") );
+        bathroom.addItem( new Item("towel", "Beautiful description of the towel") );
+
         // Définit la pièce de départ
         currentRoom = rooms[0];
 

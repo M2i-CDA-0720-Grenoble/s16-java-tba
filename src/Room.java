@@ -1,9 +1,12 @@
+import java.util.ArrayList;
+
 public class Room
 {
     private String name;
     private String description;
 
     private Room[] directions;
+    private ArrayList<Item> items;
 
 
     /**
@@ -14,6 +17,7 @@ public class Room
         name = "";
         description = "";
         directions = new Room[Direction.values().length];
+        items = new ArrayList<Item>();
     }
 
 
@@ -27,6 +31,7 @@ public class Room
         this.name = name;
         this.description = description;
         directions = new Room[Direction.values().length];
+        items = new ArrayList<Item>();
     }
 
 
@@ -35,8 +40,20 @@ public class Room
      */
     public void describe()
     {
+        // Affiche le nom de la pièce
         System.out.println(ConsoleColor.CYAN + "You are in the " + name + "." + ConsoleColor.RESET);
+        // Affiche la description de la pièce
         System.out.println(ConsoleColor.CYAN + description + ConsoleColor.RESET);
+        // Affiche la liste des objets disponibles dans la pièce
+        if (items.size() > 0) {
+            String[] itemNames = new String[items.size()];
+            for (int i = 0; i < items.size(); i += 1) {
+                itemNames[i] = items.get(i).getName();
+            }
+            String itemListString = String.join(", ", itemNames);
+            System.out.println(ConsoleColor.GREEN + "Available items: " + itemListString + "." + ConsoleColor.RESET);
+        }
+        // Affiche la liste des directions disponibles dans la pièce
         for (Direction direction : Direction.values()) {
             Room otherRoom = directions[direction.ordinal()];
             if (otherRoom != null) {
@@ -98,6 +115,23 @@ public class Room
     {
         directions[direction.ordinal()] = room;
 
+        return this;
+    }
+
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+
+    public Room addItem(Item item) {
+        items.add(item);
+        return this;
+    }
+
+
+    public Room removeItem(Item item) {
+        items.remove(item);
         return this;
     }
 }
