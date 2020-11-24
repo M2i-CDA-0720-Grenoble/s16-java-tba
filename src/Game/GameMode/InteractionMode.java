@@ -1,6 +1,7 @@
 package Game.GameMode;
 
 import Game.Action;
+import Game.ConsoleColor;
 import Game.Game;
 import Game.Item;
 
@@ -26,15 +27,22 @@ public class InteractionMode extends GameMode
         // Si la saisie de l'utilisateur est vide, retourne en mode "navigation"
         if ("".equals(userInput)) {
             game.setMode(new NavigationMode(game));
+            return;
         }
         // Cherche si la saisie de l'utilisateur correspond à une action définie pour l'objet,
         // et affiche son résultat le cas échéant
-        for (Action action : Action.values()) {
-            if (action.getCommand().equals(userInput)) {
-                String text = currentItem.getActions().get(action);
-                System.out.println(text);
-                return;
+        Action userAction = Action.match(userInput);
+
+        if (userAction == null) {
+            System.out.println(ConsoleColor.YELLOW + "This action does not exist." + ConsoleColor.RESET);
+        } else {
+            String text = currentItem.getActions().get(userAction);
+
+            if (text == null) {
+                text = userAction.getDefaultText();
             }
+
+            System.out.println(text);
         }
     }
 }
