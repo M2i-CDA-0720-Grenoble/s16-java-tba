@@ -1,23 +1,26 @@
 enum Direction {
-    East(0, "east"),
-    South(1, "south"),
-    West(2, "west"),
-    North(3, "north");
+    East("east"),
+    South("south"),
+    West("west"),
+    North("north");
 
-    private int index;
     private String command;
 
-    private Direction(int index, String command)
+
+    /**
+     * Enum constructor
+     * @param command User input matching this direction
+     */
+    private Direction(String command)
     {
-        this.index = index;
         this.command = command;
     }
 
-    public int getIndex()
-    {
-        return index;
-    }
-
+    
+    /**
+     * {@link Direction#command}
+     * @return User input matching this direction
+     */
     public String getCommand()
     {
         return command;

@@ -7,6 +7,10 @@ public class Game {
     private Room[] rooms;
     private Room currentRoom;
 
+
+    /**
+     * Class constructor
+     */
     public Game() {
         // Crée un objet Scanner qui va permettre de traiter les saisies de
         // l'utilisateur
@@ -39,6 +43,10 @@ public class Game {
         isRunning = true;
     }
 
+
+    /**
+     * Update game state
+     */
     public void update() {
         // Décrit la pièce actuelle
         currentRoom.describe();
@@ -73,11 +81,22 @@ public class Game {
         System.out.println("");
     }
 
+
+    /**
+     * Flag game as terminated and clean up before exit
+     */
     private void terminate() {
         isRunning = false;
         scanner.close();
     }
 
+    
+    /** 
+     * Find a room by name
+     * 
+     * @param name The name of the room to be looked up
+     * @return The room matching the given name, null if none found
+     */
     private Room findRoomByName(String name) {
         // Cherche parmi les pièces disponibles, celle correspondant au nom demandé
         for (Room room : rooms) {
@@ -90,6 +109,11 @@ public class Game {
         return null;
     }
 
+    
+    /**
+     * {@link Game#isRunning}
+     * @return Whether the game is flagged as running
+     */
     public boolean getIsRunning() {
         return isRunning;
     }
