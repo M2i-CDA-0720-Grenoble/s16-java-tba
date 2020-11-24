@@ -37,7 +37,12 @@ public class Game {
         };
 
         // Crée les objets dans les pièces
-        bedroom.addItem( new Item("desk", "Beautiful description of the desk") );
+        Item bedroomDesk = new Item("desk", "Beautiful description of the desk");
+        bedroomDesk.addAction(Action.Examine, "It's very old.");
+        bedroomDesk.addAction(Action.Open, "You opened a desk drawer.");
+        bedroomDesk.addAction(Action.Use, "You don't need to work right now.");
+
+        bedroom.addItem( bedroomDesk );
         bedroom.addItem( new Item("bed", "Beautiful description of the bed") );
         kitchen.addItem( new Item("food", "Beautiful description of the food") );
         bathroom.addItem( new Item("toothbrush", "Beautiful description of the toothbrush") );
@@ -79,6 +84,26 @@ public class Game {
                     System.out.println(ConsoleColor.YELLOW + "You cannot go into that direction." + ConsoleColor.RESET);
                 } else {
                     currentRoom = newRoom;
+                }
+
+                break;
+            }
+        }
+
+        // Cherche si la saisie de l'utilisateur correspond à un objet présent dans la pièce
+        for (Item item : currentRoom.getItems()) {
+            if (item.getName().equals(userInput)) {
+                System.out.println("Interacting with " + item.getName() + ".");
+                System.out.println("");
+                System.out.print("> ");
+                userInput = scanner.nextLine().trim();
+
+                for (Action action : Action.values()) {
+                    if (action.getCommand().equals(userInput)) {
+                        String text = item.getActions().get(action);
+                        System.out.println(text);
+                        break;
+                    }
                 }
 
                 break;
