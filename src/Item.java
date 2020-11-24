@@ -31,4 +31,12 @@ public class Item
         actions.put(action, text);
         return this;
     }
+
+
+    /**
+     * Output a description of the item
+     */
+    public void describe() {
+        System.out.println(ConsoleColor.CYAN + description + ConsoleColor.RESET);
+    }
 }

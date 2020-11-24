@@ -3,9 +3,11 @@ import java.util.Scanner;
 public class Game {
     private Scanner scanner;
     private boolean isRunning;
+    private int mode;
 
     private Room[] rooms;
     private Room currentRoom;
+    private Item currentItem;
 
 
     /**
@@ -53,6 +55,9 @@ public class Game {
 
         // Initialise le marqueur permettant de savoir que la partie est en cours
         isRunning = true;
+
+        // Initialise le jeu en mode "navigation"
+        mode = 0;
     }
 
 
@@ -60,8 +65,17 @@ public class Game {
      * Update game state
      */
     public void update() {
-        // Décrit la pièce actuelle
-        currentRoom.describe();
+        // Décrit la situation actuelle
+        switch (mode) {
+            // Mode navigation
+            case 0:
+                currentRoom.describe();
+                break;
+            // Mode interaction
+            case 1:
+                currentItem.describe();
+                break;
+        }
 
         // Invite l'utilisateur à rentrer une ligne de texte
         System.out.println("");
@@ -74,40 +88,50 @@ public class Game {
             return;
         }
 
-        // Cherche si la saisie de l'utilisateur correspond à une direction,
-        // et se déplace dans la pièce correspondante le cas échéant
-        for (Direction direction : Direction.values()) {
-            if (direction.getCommand().equals(userInput)) {
-                Room newRoom = currentRoom.getDirection(direction);
-
-                if (newRoom == null) {
-                    System.out.println(ConsoleColor.YELLOW + "You cannot go into that direction." + ConsoleColor.RESET);
-                } else {
-                    currentRoom = newRoom;
+        switch (mode) {
+            // Mode navigation
+            case 0:
+                // Cherche si la saisie de l'utilisateur correspond à une direction,
+                // et se déplace dans la pièce correspondante le cas échéant
+                for (Direction direction : Direction.values()) {
+                    if (direction.getCommand().equals(userInput)) {
+                        Room newRoom = currentRoom.getDirection(direction);
+        
+                        if (newRoom == null) {
+                            System.out.println(ConsoleColor.YELLOW + "You cannot go into that direction." + ConsoleColor.RESET);
+                        } else {
+                            currentRoom = newRoom;
+                        }
+        
+                        break;
+                    }
                 }
-
+                // Cherche si la saisie de l'utilisateur correspond à un objet présent dans la pièce,
+                // et passe en mode "interaction" avec cet objet le cas échéant
+                for (Item item : currentRoom.getItems()) {
+                    if (item.getName().equals(userInput)) {
+                        currentItem = item;
+                        mode = 1;
+                        break;
+                    }
+                }
                 break;
-            }
-        }
-
-        // Cherche si la saisie de l'utilisateur correspond à un objet présent dans la pièce
-        for (Item item : currentRoom.getItems()) {
-            if (item.getName().equals(userInput)) {
-                System.out.println("Interacting with " + item.getName() + ".");
-                System.out.println("");
-                System.out.print("> ");
-                userInput = scanner.nextLine().trim();
-
+            // Mode interaction
+            case 1:
+                // Si la saisie de l'utilisateur est vide, retourne en mode "navigation"
+                if ("".equals(userInput)) {
+                    mode = 0;
+                }
+                // Cherche si la saisie de l'utilisateur correspond à une action définie pour l'objet,
+                // et affiche son résultat le cas échéant
                 for (Action action : Action.values()) {
                     if (action.getCommand().equals(userInput)) {
-                        String text = item.getActions().get(action);
+                        String text = currentItem.getActions().get(action);
                         System.out.println(text);
                         break;
                     }
                 }
-
                 break;
-            }
         }
 
         System.out.println("");
