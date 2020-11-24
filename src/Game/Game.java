@@ -44,9 +44,41 @@ public class Game
 
         // Crée les objets dans les pièces
         Item bedroomDesk = new Item("desk", "Beautiful description of the desk");
-        bedroomDesk.addAction(Action.Examine, "It's very old.");
-        bedroomDesk.addAction(Action.Open, "You opened a desk drawer.");
-        bedroomDesk.addAction(Action.Use, "You don't need to work right now.");
+        bedroomDesk.setSwitch("open", false);
+        bedroomDesk.addAction(Action.Examine,
+            (item) -> {
+                String text;
+                if (item.getSwitch("open")) {
+                    text = "The drawer is open.";
+                } else {
+                    text = "The drawer is closed.";
+                }
+                return text;
+            }
+        );
+        bedroomDesk.addAction(Action.Open,
+            (item) -> {
+                if (item.getSwitch("open")) {
+                    return "The drawer is already open.";
+                }
+                item.setSwitch("open", true);
+                return "You open the drawer.";
+            }
+        );
+        bedroomDesk.addAction(Action.Close,
+            (item) -> {
+                if (!item.getSwitch("open")) {
+                    return "The drawer is already closed.";
+                }
+                item.setSwitch("open", false);
+                return "You close the drawer.";
+            }
+        );
+        bedroomDesk.addAction(Action.Use,
+            (item) -> {
+                return "You don't need to work right now.";
+            }
+        );
 
         bedroom.addItem( bedroomDesk );
         bedroom.addItem( new Item("bed", "Beautiful description of the bed") );

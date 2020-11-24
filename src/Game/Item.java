@@ -1,20 +1,23 @@
 package Game;
 
 import java.util.HashMap;
+import java.util.function.Function;
 
 public class Item
 {
     private String name;
     private String description;
 
-    private HashMap<Action, String> actions;
-
+    private HashMap<Action, Function<Item, String> > actions;
+    private HashMap<String, Boolean> switches;
+    
 
     public Item(String name, String description)
     {
         this.name = name;
         this.description = description;
-        actions = new HashMap<Action, String>();
+        actions = new HashMap<>();
+        switches = new HashMap<>();
     }
 
     public String getName() {
@@ -25,12 +28,22 @@ public class Item
         return description;
     }
 
-    public HashMap<Action, String> getActions() {
+    public HashMap<Action, Function<Item, String> > getActions() {
         return actions;
     }
 
-    public Item addAction(Action action, String text) {
-        actions.put(action, text);
+    public Item addAction(Action action, Function<Item, String> function) {
+        actions.put(action, function);
+        return this;
+    }
+
+    public Boolean getSwitch(String key)
+    {
+        return switches.get(key);
+    }
+
+    public Item setSwitch(String key, Boolean value) {
+        switches.put(key, value);
         return this;
     }
 

@@ -1,5 +1,7 @@
 package Game.GameMode;
 
+import java.util.function.Function;
+
 import Game.Action;
 import Game.ConsoleColor;
 import Game.Game;
@@ -36,10 +38,13 @@ public class InteractionMode extends GameMode
         if (userAction == null) {
             System.out.println(ConsoleColor.YELLOW + "This action does not exist." + ConsoleColor.RESET);
         } else {
-            String text = currentItem.getActions().get(userAction);
+            Function<Item, String> function = currentItem.getActions().get(userAction);
 
-            if (text == null) {
+            String text;
+            if (function == null) {
                 text = userAction.getDefaultText();
+            } else {
+                text = function.apply(currentItem);
             }
 
             System.out.println(text);
