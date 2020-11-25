@@ -45,7 +45,7 @@ public class Room
         // Affiche le nom de la pièce
         System.out.println(ConsoleColor.CYAN + "You are in the " + name + "." + ConsoleColor.RESET);
         // Affiche la description de la pièce
-        System.out.println(ConsoleColor.CYAN + description + ConsoleColor.RESET);
+        System.out.println(ConsoleColor.CYAN + description + ConsoleColor.RESET + "\n");
         // Affiche la liste des objets disponibles dans la pièce
         if (items.size() > 0) {
             String[] itemNames = new String[items.size()];

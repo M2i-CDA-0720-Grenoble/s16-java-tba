@@ -15,6 +15,7 @@ public class NavigationMode extends GameMode
 
     public void describe()
     {
+        System.out.println(ConsoleColor.MAGENTA + "Navigating " + game.getCurrentRoom().getName() + ConsoleColor.RESET + "\n");
         // Affiche la description de la pièce actuelle
         game.getCurrentRoom().describe();
     }

@@ -5,6 +5,7 @@ public enum Action {
     Open("open", "This does not seem to open."),
     Close("close", "This does not seem to close."),
     Use("use", "You have no idea how to use that."),
+    Tidy("tidy", "It's not particularily messy."),
     Break("break", "You cannot break this with your bare hands.");
 
     private String command;

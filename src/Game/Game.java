@@ -23,68 +23,7 @@ public class Game
         scanner = new Scanner(System.in);
 
         // Crée les pièces du jeu
-        Room bedroom = new Room("bedroom", "There is a bed and a desk.");
-        Room bathroom = new Room("bathroom", "There is a toothbrush and a towel.");
-        Room kitchen = new Room("kitchen", "There are leftovers from last night's dinner.");
-        Room corridor = new Room("corridor", "It's empty.");
-
-        bedroom.setDirection(Direction.East, bathroom);
-        bathroom.setDirection(Direction.West, bedroom);
-        bedroom.setDirection(Direction.North, corridor);
-        corridor.setDirection(Direction.South, bedroom);
-        corridor.setDirection(Direction.West, kitchen);
-        kitchen.setDirection(Direction.East, corridor);
-
-        rooms = new Room[] {
-            bedroom,
-            bathroom,
-            kitchen,
-            corridor,
-        };
-
-        // Crée les objets dans les pièces
-        Item bedroomDesk = new Item("desk", "Beautiful description of the desk");
-        bedroomDesk.setSwitch("open", false);
-        bedroomDesk.addAction(Action.Examine,
-            (item) -> {
-                String text;
-                if (item.getSwitch("open")) {
-                    text = "The drawer is open.";
-                } else {
-                    text = "The drawer is closed.";
-                }
-                return text;
-            }
-        );
-        bedroomDesk.addAction(Action.Open,
-            (item) -> {
-                if (item.getSwitch("open")) {
-                    return "The drawer is already open.";
-                }
-                item.setSwitch("open", true);
-                return "You open the drawer.";
-            }
-        );
-        bedroomDesk.addAction(Action.Close,
-            (item) -> {
-                if (!item.getSwitch("open")) {
-                    return "The drawer is already closed.";
-                }
-                item.setSwitch("open", false);
-                return "You close the drawer.";
-            }
-        );
-        bedroomDesk.addAction(Action.Use,
-            (item) -> {
-                return "You don't need to work right now.";
-            }
-        );
-
-        bedroom.addItem( bedroomDesk );
-        bedroom.addItem( new Item("bed", "Beautiful description of the bed") );
-        kitchen.addItem( new Item("food", "Beautiful description of the food") );
-        bathroom.addItem( new Item("toothbrush", "Beautiful description of the toothbrush") );
-        bathroom.addItem( new Item("towel", "Beautiful description of the towel") );
+        rooms = DataProvider.createRooms();
 
         // Définit la pièce de départ
         currentRoom = rooms[0];

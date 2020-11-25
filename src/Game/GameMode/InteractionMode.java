@@ -20,6 +20,7 @@ public class InteractionMode extends GameMode
 
     public void describe()
     {
+        System.out.println(ConsoleColor.MAGENTA + "Interactng with " + currentItem.getName() + ConsoleColor.RESET + "\n");
         // Affiche la description de l'objet concerné
         currentItem.describe();
     }
