@@ -41,11 +41,13 @@ public class NavigationMode extends GameMode
 
         // Cherche si la saisie de l'utilisateur correspond à un objet présent dans la pièce,
         // et passe en mode "interaction" avec cet objet le cas échéant
-        for (Item item : game.getCurrentRoom().getItems()) {
+        for (Item item : game.getCurrentRoom().getVisibleItems()) {
             if (item.getName().equals(userInput)) {
                 game.setMode(new InteractionMode(game, item));
                 return;
             }
         }
+
+        System.out.println(ConsoleColor.YELLOW + "Unknown command." + ConsoleColor.RESET);
     }
 }

@@ -47,10 +47,11 @@ public class Room
         // Affiche la description de la pièce
         System.out.println(ConsoleColor.CYAN + description + ConsoleColor.RESET + "\n");
         // Affiche la liste des objets disponibles dans la pièce
-        if (items.size() > 0) {
-            String[] itemNames = new String[items.size()];
-            for (int i = 0; i < items.size(); i += 1) {
-                itemNames[i] = items.get(i).getName();
+        ArrayList<Item> visibleItems = getVisibleItems();
+        if (visibleItems.size() > 0) {
+            String[] itemNames = new String[visibleItems.size()];
+            for (int i = 0; i < visibleItems.size(); i += 1) {
+                itemNames[i] = visibleItems.get(i).getName();
             }
             String itemListString = String.join(", ", itemNames);
             System.out.println(ConsoleColor.GREEN + "Available items: " + itemListString + "." + ConsoleColor.RESET);
@@ -123,6 +124,18 @@ public class Room
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+
+    public ArrayList<Item> getVisibleItems()
+    {
+        ArrayList<Item> visibleItems = new ArrayList<>();
+        for (Item item : items) {
+            if (!item.getHidden()) {
+                visibleItems.add(item);
+            }
+        }
+        return visibleItems;
     }
 
 

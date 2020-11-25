@@ -190,9 +190,19 @@ public class DataProvider
     private static Item createCarKeys()
     {
         Item carKeys = new Item("car keys", "These are the keys that open your Renault Twingo.");
+        carKeys.addAction(Action.Examine,
+            (parameters) -> {
+                return "They are strapped in a Hello Kitty key chain.";
+            }
+        );
         carKeys.addAction(Action.PickUp,
             (parameters) -> {
+                if (parameters.getItem().getHidden()) {
+                    return "You have them already.";
+                }
+
                 parameters.addItemToInventory();
+                parameters.getItem().setHidden(true);
 
                 return "You pick up the car keys.";
             }

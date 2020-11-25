@@ -7,6 +7,7 @@ public class Item
 {
     private String name;
     private String description;
+    private boolean hidden;
 
     private HashMap<Action, Function<ActionParameters, String> > actions;
     private HashMap<String, Boolean> switches;
@@ -16,6 +17,7 @@ public class Item
     {
         this.name = name;
         this.description = description;
+        hidden = false;
         actions = new HashMap<>();
         switches = new HashMap<>();
     }
@@ -53,5 +55,13 @@ public class Item
      */
     public void describe() {
         System.out.println(ConsoleColor.CYAN + description + ConsoleColor.RESET);
+    }
+
+    public boolean getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }
