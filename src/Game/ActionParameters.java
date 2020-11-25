@@ -17,4 +17,9 @@ public class ActionParameters {
     public Item getItem() {
         return item;
     }
+
+    public void addItemToInventory()
+    {
+        game.getInventory().addItem(item);
+    }
 }

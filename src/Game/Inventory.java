@@ -25,4 +25,14 @@ public class Inventory {
         items.remove(item);
         return this;
     }
+
+    public boolean containsNamed(String name)
+    {
+        for (Item item : items) {
+            if (item.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

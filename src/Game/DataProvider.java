@@ -26,6 +26,7 @@ public class DataProvider
         bedroom.addItem( createDesk() );
         bedroom.addItem( createBed() );
         kitchen.addItem( createFridge() );
+        kitchen.addItem( createCarKeys() );
         bathroom.addItem( createToothbrush() );
         garage.addItem( createCar() );
         
@@ -157,7 +158,7 @@ public class DataProvider
         Item toothbrush = new Item("toothbrush", "This is your toothbrush. It's full of surprises.");
         toothbrush.addAction(Action.PickUp,
             (parameters) -> {
-                parameters.getGame().getInventory().addItem(parameters.getItem());
+                parameters.addItemToInventory();
 
                 return "You pick up the toothbrush.";
             }
@@ -166,9 +167,37 @@ public class DataProvider
         return toothbrush;
     }
 
-    private static Item createCar() {
+    private static Item createCar()
+    {
         Item car = new Item("car", "This is your car. It's Renault Twingo. You bought a cheap car because you had to invest in a good fridge.");
+        car.setSwitch("open", false);
+        car.addAction(Action.Open,
+            (parameters) -> {
+                if (parameters.getItem().getSwitch("open")) {
+                    return "The car is already open.";
+                }
+                if (parameters.getGame().getInventory().containsNamed("car keys")) {
+                    parameters.getItem().setSwitch("open", true);
+                    return "You open the car.";
+                }
+                return "You need the keys to open the car. Where could you have hidden them?";
+            }
+        );
 
         return car;
+    }
+
+    private static Item createCarKeys()
+    {
+        Item carKeys = new Item("car keys", "These are the keys that open your Renault Twingo.");
+        carKeys.addAction(Action.PickUp,
+            (parameters) -> {
+                parameters.addItemToInventory();
+
+                return "You pick up the car keys.";
+            }
+        );
+
+        return carKeys;
     }
 }
