@@ -6,6 +6,7 @@ public enum Action {
     Close("close", "This does not seem to close."),
     Use("use", "You have no idea how to use that."),
     Tidy("tidy", "It's not particularily messy."),
+    PickUp("pick up", "You don't want to carry that around."),
     Break("break", "You cannot break this with your bare hands.");
 
     private String command;

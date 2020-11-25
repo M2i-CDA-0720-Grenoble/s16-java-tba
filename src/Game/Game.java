@@ -9,6 +9,7 @@ public class Game
     private Scanner scanner;
     private boolean isRunning;
     private GameMode mode;
+    private Inventory inventory;
 
     private Room[] rooms;
     private Room currentRoom;
@@ -33,6 +34,9 @@ public class Game
 
         // Initialise le jeu en mode "navigation"
         setMode(new NavigationMode(this));
+
+        // Initialise l'inventaire
+        inventory = new Inventory();
     }
 
 
@@ -118,4 +122,10 @@ public class Game
         // Décrit la situation acutelle en fonction du mode
         mode.describe();
     }
+
+
+    public Inventory getInventory()
+    {
+		return inventory;
+	}
 }

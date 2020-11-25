@@ -8,7 +8,7 @@ public class Item
     private String name;
     private String description;
 
-    private HashMap<Action, Function<Item, String> > actions;
+    private HashMap<Action, Function<ActionParameters, String> > actions;
     private HashMap<String, Boolean> switches;
     
 
@@ -28,11 +28,11 @@ public class Item
         return description;
     }
 
-    public HashMap<Action, Function<Item, String> > getActions() {
+    public HashMap<Action, Function<ActionParameters, String> > getActions() {
         return actions;
     }
 
-    public Item addAction(Action action, Function<Item, String> function) {
+    public Item addAction(Action action, Function<ActionParameters, String> function) {
         actions.put(action, function);
         return this;
     }
