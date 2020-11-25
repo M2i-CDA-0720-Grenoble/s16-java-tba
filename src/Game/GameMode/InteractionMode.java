@@ -14,7 +14,7 @@ public class InteractionMode extends GameMode
     public InteractionMode(Game game, Item currentItem)
     {
         super(game);
-
+        
         this.currentItem = currentItem;
     }
 

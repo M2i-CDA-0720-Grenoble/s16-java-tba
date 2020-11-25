@@ -33,6 +33,7 @@ public class NavigationMode extends GameMode
                 System.out.println(ConsoleColor.YELLOW + "You cannot go into that direction." + ConsoleColor.RESET);
             } else {
                 game.setCurrentRoom(newRoom);
+                game.setMode(new NavigationMode(game));
             }
             
             return;    

@@ -32,7 +32,7 @@ public class Game
         isRunning = true;
 
         // Initialise le jeu en mode "navigation"
-        mode = new NavigationMode(this);
+        setMode(new NavigationMode(this));
     }
 
 
@@ -40,9 +40,6 @@ public class Game
      * Update game state
      */
     public void update() {
-        // Décrit la situation acutelle en fonction du mode
-        mode.describe();
-        
         // Invite l'utilisateur à rentrer une ligne de texte
         System.out.println("");
         System.out.print("> ");
@@ -115,5 +112,10 @@ public class Game
 
     public void setMode(GameMode mode) {
         this.mode = mode;
+        
+        System.out.println("");
+
+        // Décrit la situation acutelle en fonction du mode
+        mode.describe();
     }
 }
