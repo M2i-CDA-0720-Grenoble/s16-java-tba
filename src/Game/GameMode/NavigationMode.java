@@ -22,12 +22,6 @@ public class NavigationMode extends GameMode
 
     public void interpret(String userInput)
     {
-        // Vérifie si l'utilisateur souhaite passer en mode "inventaire"
-        if ("inventory".equals(userInput)) {
-            game.setMode(new InventoryMode(game));
-            return;
-        }
-
         // Cherche si la saisie de l'utilisateur correspond à une direction,
         // et se déplace dans la pièce correspondante le cas échéant
         Direction direction = Direction.match(userInput);

@@ -49,14 +49,32 @@ public class Game
         System.out.print("> ");
         String userInput = scanner.nextLine().trim();
 
-        // Si l'utilisateur a rentré "exit", termine le jeu
-        if ("exit".equals(userInput)) {
-            terminate();
-            return;
+        // Si la saisie de l'utilisateur correspond à une commande de base (accessible de n'importe quel endroit du jeu),
+        // exécute l'action correspondante, sinon passe la main au mode pour l'interpréter
+        BaseCommand command = BaseCommand.match(userInput);
+        if (command == null) {
+            // Interprète la saisie utilisateur en fonction du mode
+            mode.interpret(userInput);
+        } else {
+            switch (command) {
+                // Arrête le jeu
+                case Exit:
+                    terminate();
+                    break;
+                // Affiche une aide pour l'utilisateur
+                case Help:
+                    displayHelp();
+                    break;
+                // Passe en mode "navigation"
+                case Navigation:
+                    setMode(new NavigationMode(this));
+                    break;
+                // Passe en mode "inventaire"
+                case Inventory:
+                    setMode(new InventoryMode(this));
+                    break;
+            }
         }
-
-        // Interprète la saisie utilisateur en fonction du mode
-        mode.interpret(userInput);
 
         System.out.println("");
     }
@@ -127,5 +145,27 @@ public class Game
     public Inventory getInventory()
     {
 		return inventory;
-	}
+    }
+    
+
+    private void displayHelp()
+    {
+        System.out.println(ConsoleColor.MAGENTA + "\nReference" + ConsoleColor.RESET + "\n");
+        System.out.println(ConsoleColor.CYAN + "Base commands" + ConsoleColor.RESET + "\n");
+
+        for (BaseCommand command : BaseCommand.values()) {
+            System.out.println(ConsoleColor.GREEN + command.getCommand() + ConsoleColor.RESET);
+        }
+
+        System.out.println(ConsoleColor.CYAN + "\nDirections (in navigation mode)" + ConsoleColor.RESET + "\n");
+        for (Direction direction : Direction.values()) {
+            System.out.println(ConsoleColor.GREEN + direction.getCommand() + ConsoleColor.RESET);
+        }
+        System.out.println(ConsoleColor.GREEN + "<item name> - enter interaction mode with specified item" + ConsoleColor.RESET);
+
+        System.out.println(ConsoleColor.CYAN + "\nActions (in interaction mode)" + ConsoleColor.RESET + "\n");
+        for (Action action : Action.values()) {
+            System.out.println(ConsoleColor.GREEN + action.getCommand() + ConsoleColor.RESET);
+        }
+    }
 }
