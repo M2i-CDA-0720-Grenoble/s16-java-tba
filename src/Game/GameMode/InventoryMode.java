@@ -43,7 +43,7 @@ public class InventoryMode extends GameMode
         List<Item> items = game.getInventory().getItems();
         for (Item item : items) {
             if (item.getName().equals(userInput)) {
-                game.setMode(new InteractionMode(game, item));
+                game.setMode(new InteractionMode(game, item, GameMode.INVENTORY_MODE_TYPE));
                 return;
             }
         }

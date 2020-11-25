@@ -11,12 +11,14 @@ import Game.Item;
 public class InteractionMode extends GameMode
 {
     private Item currentItem;
+    private int previousModeType;
 
-    public InteractionMode(Game game, Item currentItem)
+    public InteractionMode(Game game, Item currentItem, int previousModeType)
     {
         super(game);
         
         this.currentItem = currentItem;
+        this.previousModeType = previousModeType;
     }
 
     public void describe()
@@ -30,7 +32,18 @@ public class InteractionMode extends GameMode
     {
         // Si la saisie de l'utilisateur est vide, retourne en mode "navigation"
         if ("".equals(userInput)) {
-            game.setMode(new NavigationMode(game));
+            GameMode newMode;
+            switch (previousModeType) {
+                case GameMode.NAVIGATION_MODE_TYPE:
+                    newMode = new NavigationMode(game);
+                    break;
+                case GameMode.INVENTORY_MODE_TYPE:
+                    newMode = new InventoryMode(game);
+                    break;
+                default:
+                    newMode = this;
+            }
+            game.setMode(newMode);
             return;
         }
         // Cherche si la saisie de l'utilisateur correspond à une action définie pour l'objet,

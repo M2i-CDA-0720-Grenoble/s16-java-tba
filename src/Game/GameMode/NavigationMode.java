@@ -42,14 +42,14 @@ public class NavigationMode extends GameMode
                 game.setMode(new NavigationMode(game));
             }
             
-            return;    
+            return;
         }
 
         // Cherche si la saisie de l'utilisateur correspond à un objet présent dans la pièce,
         // et passe en mode "interaction" avec cet objet le cas échéant
         for (Item item : game.getCurrentRoom().getVisibleItems()) {
             if (item.getName().equals(userInput)) {
-                game.setMode(new InteractionMode(game, item));
+                game.setMode(new InteractionMode(game, item, GameMode.NAVIGATION_MODE_TYPE));
                 return;
             }
         }
